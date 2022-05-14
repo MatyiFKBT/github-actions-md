@@ -9,7 +9,7 @@ parsed_data = [{
     'issue #': f'#{issue["number"]}',
     'title': issue['title'],
     'state':issue['state'],
-    'age': f'https://img.shields.io/github/issues/detail/age/matyifkbt/github-actions-md/{issue["number"]}'
+    'age': f'![](https://img.shields.io/github/issues/detail/age/matyifkbt/github-actions-md/{issue["number"]})'
 } for issue in data]
 
 markdown = Tomark.table(parsed_data)
