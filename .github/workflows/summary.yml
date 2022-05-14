@@ -10,5 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
+        with:
+          cache: 'pip'
+      - name: 'Install dependencies'
+        run: pip install -r requirements.txt
       - run: python main.py
       - run: cat table.md > $GITHUB_STEP_SUMMARY
