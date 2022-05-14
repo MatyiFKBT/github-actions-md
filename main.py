@@ -1,13 +1,18 @@
 # example python script that generates a table in markdown and saves it as table.md
+from tomark import Tomark
+import requests
 
-rows = [
-    "| Status | Name | Icon |",
-    "|---|---|---|",
-    "|OK|Test 1| ![badge](https://img.shields.io/badge/test-ok-blue)",
-    "|TODO|Test 2| ![badge](https://img.shields.io/badge/test-todo-yellow)",
-    "|FAILING|Test 3| ![badge](https://img.shields.io/badge/test-failing-red)",
-]
+response = requests.get(
+    'https://api.github.com/repos/matyifkbt/github-actions-md/issues?state=all&direction=asc')
+data = response.json()
+parsed_data = [{
+    'issue #': f'#{issue["number"]}',
+    'title': issue['title'],
+    'state':issue['state'],
+    'age': f'https://img.shields.io/github/issues/detail/age/matyifkbt/github-actions-md/{issue["number"]}'
+} for issue in data]
 
-with open("table.md", "w", encoding="utf-8") as f:
-    for row in rows:
-        print(row, file=f)
+markdown = Tomark.table(parsed_data)
+
+with open('table.md', 'w') as f:
+    print(markdown, file=f)
